@@ -87,7 +87,7 @@ export const TimerProvider = ({ children }) => {
                         // Determine if we just hit a minute mark (and it's not the start)
                         // Note: validation > 0 ensures we don't trigger at 0 elapsed
                         if (elapsed > 0 && elapsed % 60 === 0) {
-                            axios.put('http://localhost:5001/api/pomodoro/progress')
+                            axios.put('/pomodoro/progress')
                                 .catch(err => console.error("Progress update failed", err));
                         }
                     }
@@ -127,7 +127,7 @@ export const TimerProvider = ({ children }) => {
         if (mode === 'focus') {
             setShowVictory(true);
             try {
-                await axios.post('http://localhost:5001/api/pomodoro', { duration: 25 });
+                await axios.post('/pomodoro', { duration: 25 });
             } catch (err) { console.error(err); }
         }
         playAlarm();

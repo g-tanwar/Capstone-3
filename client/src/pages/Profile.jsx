@@ -13,7 +13,7 @@ const Profile = () => {
 
     const fetchStats = async () => {
         try {
-            const res = await axios.get('http://localhost:5001/api/progress');
+            const res = await axios.get('/progress');
             setStats(res.data);
         } catch (err) { console.error(err); }
     };

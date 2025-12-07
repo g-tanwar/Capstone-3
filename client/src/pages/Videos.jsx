@@ -19,7 +19,7 @@ const Videos = () => {
 
     const fetchVideos = async () => {
         try {
-            const res = await axios.get(`http://localhost:5001/api/videos?search=${search}`);
+            const res = await axios.get(`/videos?search=${search}`);
             setVideos(res.data.videos);
         } catch (err) {
             console.error(err);
@@ -48,7 +48,7 @@ const Videos = () => {
             }
 
             // Note: axios automatically sets Content-Type to multipart/form-data
-            await axios.post('http://localhost:5001/api/videos', formData);
+            await axios.post('/videos', formData);
 
             setShowForm(false);
             setNewVideo({ title: '', url: '', category: 'General', description: '' });
@@ -63,7 +63,7 @@ const Videos = () => {
     const handleDelete = async (id) => {
         if (!confirm("Are you sure?")) return;
         try {
-            await axios.delete(`http://localhost:5001/api/videos/${id}`);
+            await axios.delete(`/videos/${id}`);
             fetchVideos();
         } catch (err) {
             console.error(err);
@@ -208,7 +208,7 @@ const VideoCard = ({ video, onDelete }) => {
         setHasLiked(true);
 
         try {
-            await axios.post(`http://localhost:5001/api/videos/${video._id}/like`);
+            await axios.post(`/videos/${video._id}/like`);
         } catch (err) {
             console.error(err);
             setLikes(prev => prev - 1);
@@ -226,7 +226,7 @@ const VideoCard = ({ video, onDelete }) => {
         setCommentText('');
 
         try {
-            await axios.post(`http://localhost:5001/api/videos/${video._id}/comments`, { text: newComment.text });
+            await axios.post(`/videos/${video._id}/comments`, { text: newComment.text });
         } catch (err) {
             console.error(err);
             setComments(prev => prev.slice(0, -1)); // Revert

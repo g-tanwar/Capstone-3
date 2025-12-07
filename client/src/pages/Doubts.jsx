@@ -15,7 +15,7 @@ const Doubts = () => {
 
     const fetchDoubts = async () => {
         try {
-            const res = await axios.get(`http://localhost:5001/api/doubts?search=${search}`);
+            const res = await axios.get(`/doubts?search=${search}`);
             setDoubts(res.data.doubts);
         } catch (err) { console.error(err); }
     };
@@ -23,7 +23,7 @@ const Doubts = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5001/api/doubts', {
+            await axios.post('/doubts', {
                 question: newDoubt.question,
                 tags: newDoubt.tags.split(',').map(t => t.trim())
             });
@@ -36,7 +36,7 @@ const Doubts = () => {
     const handleDelete = async (id) => {
         if (!confirm("Delete this doubt?")) return;
         try {
-            await axios.delete(`http://localhost:5001/api/doubts/${id}`);
+            await axios.delete(`/doubts/${id}`);
             fetchDoubts();
         } catch (err) { console.error(err); }
     };
@@ -104,7 +104,7 @@ const DoubtCard = ({ doubt, onDelete }) => {
         // Optimistic
         setVotes(prev => type === 'up' ? prev + 1 : prev - 1);
         try {
-            await axios.post(`http://localhost:5001/api/doubts/${doubt._id}/vote`, { type });
+            await axios.post(`/doubts/${doubt._id}/vote`, { type });
         } catch (err) {
             console.error(err);
             setVotes(prev => type === 'up' ? prev - 1 : prev + 1); // Revert
@@ -114,7 +114,7 @@ const DoubtCard = ({ doubt, onDelete }) => {
     const handleAnswerSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`http://localhost:5001/api/doubts/${doubt._id}/answers`, { content: newAnswer });
+            const res = await axios.post(`/doubts/${doubt._id}/answers`, { content: newAnswer });
             setAnswers(res.data.answers);
             setNewAnswer('');
             setShowAnswerForm(false);

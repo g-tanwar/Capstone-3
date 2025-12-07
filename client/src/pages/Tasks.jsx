@@ -12,14 +12,14 @@ const Tasks = () => {
     }, []);
 
     const fetchTodos = async () => {
-        const res = await axios.get('http://localhost:5001/api/todos?sort=priority');
+        const res = await axios.get('/todos?sort=priority');
         setTodos(res.data);
     };
 
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5001/api/todos', { task: newTask, priority: 'Medium' });
+            await axios.post('/todos', { task: newTask, priority: 'Medium' });
             setNewTask('');
             fetchTodos();
         } catch (err) {
@@ -29,7 +29,7 @@ const Tasks = () => {
 
     const toggleComplete = async (todo) => {
         try {
-            await axios.put(`http://localhost:5001/api/todos/${todo._id}`, { isCompleted: !todo.isCompleted });
+            await axios.put(`/todos/${todo._id}`, { isCompleted: !todo.isCompleted });
             fetchTodos();
         } catch (err) {
             console.error(err);
@@ -38,7 +38,7 @@ const Tasks = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:5001/api/todos/${id}`);
+            await axios.delete(`/todos/${id}`);
             fetchTodos();
         } catch (err) {
             console.error(err);
