@@ -5,7 +5,7 @@ import './index.css';
 import axios from 'axios';
 
 // Set global base URL for API calls
-axios.defaults.baseURL = 'https://capstone-3-csn9.onrender.com/api';
+axios.defaults.baseURL = 'http://localhost:5001/api';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
