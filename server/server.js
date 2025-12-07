@@ -32,11 +32,23 @@ app.get('/', (req, res) => {
 
 // Database Connection
 mongoose.connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+    family: 4, // Force IPv4 to avoid Render/Atlas IPv6 issues
+    autoIndex: false, // Don't build indexes on startup (prevents timeouts)
+    maxPoolSize: 10 // Maintain up to 10 socket connections
 })
-    .then(() => console.log('MongoDB Connected'))
+    .then(() => {
+        console.log('MongoDB Connected');
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    })
     .catch(err => console.log(err));
 
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+mongoose.connection.on('disconnected', () => {
+    console.log('MongoDB disconnected!');
+});
+mongoose.connection.on('error', (err) => {
+    console.error('MongoDB connection error:', err);
 });
